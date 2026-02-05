@@ -23,7 +23,7 @@ Clone the repository and set up a clean Python virtual environment:
 ```bash
 # Clone the repository
 git clone https://github.com/Martinchen001a/DE_BlueAlpha
-cd data-engineer-coding-task
+cd DE_BlueAlpha
 
 # Create and activate virtual environment
 python3 -m venv .venv(Or python -m venv .venv)
