@@ -27,7 +27,7 @@ cd data-engineer-coding-task
 
 # Create and activate virtual environment
 python3 -m venv .venv(Or python -m venv .venv)
-source .venv/bin/activate
+source .venv/bin/activate(Or .\.venv\Scripts\Activate.ps1)
 
 # Install required dependencies
 pip install --upgrade pip
