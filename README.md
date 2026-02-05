@@ -13,9 +13,18 @@ This project implements an end-to-end data engineering pipeline. It orchestrates
 
 ## 🚀 Setup Instructions
 
+
+
+
+
 ### 1. Environment Initialization
 Clone the repository and set up a clean Python virtual environment:
+
 ```bash
+# Clone the repository
+git clone https://github.com/Martinchen001a/DE_BlueAlpha
+cd data-engineer-coding-task
+
 # Create and activate virtual environment
 python3 -m venv .venv
 source .venv/bin/activate
@@ -23,6 +32,7 @@ source .venv/bin/activate
 # Install required dependencies
 pip install --upgrade pip
 pip install -r requirements.txt
+
 
 ```
 
