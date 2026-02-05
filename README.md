@@ -106,7 +106,7 @@ Once both services are running, visit `http://localhost:8081`, log in with `admi
 ## 💡 Key Features
 
 * **Environment Agnostic**: The pipeline uses `PROJECT_ROOT` dynamic pathing, eliminating "File Not Found" errors across different machines.
-* **Robust Ingestion**: The Python ingestion script handles inconsistent date formats and standardizes column naming conventions (lowercase, snake_case) automatically using regex and pandas.
+* **Robust Ingestion**: The Python ingestion script handles inconsistent date formats and standardizes column naming conventions (lowercase, snake_case, trim whitespace) automatically using regex and pandas.
 * **Isolated Metadata**: By locking `AIRFLOW_HOME` to the project folder, all logs and local db files are kept separate from your system-wide Airflow configuration.
 * **Containerized Database**: Uses Docker to manage PostgreSQL 16.4, ensuring a consistent database environment for all users.
 
