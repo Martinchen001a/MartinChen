@@ -24,73 +24,26 @@ Clone the repository and set up a clean Python virtual environment:
 # Clone the repository
 git clone https://github.com/Martinchen001a/DE_BlueAlpha
 cd DE_BlueAlpha
-
-# Create and activate virtual environment
-python3 -m venv .venv(Or python -m venv .venv)
-source .venv/bin/activate(Or .\.venv\Scripts\Activate.ps1)
-
-# Install required dependencies
-pip install --upgrade pip
-pip install -r requirements.txt
-
-
 ```
 
-### 2. Launch Database Service
+### 2. Launch the Entire Stack
 
-The project relies on PostgreSQL. Use Docker Compose to spin up the database and pgAdmin:
+This command builds the custom Airflow image (including dbt and dependencies) and starts all services.
 
 ```bash
-docker-compose up -d
+docker-compose up -d --build
 
 ```
 
-* **PostgreSQL**: Accessible at `localhost:5433` (mapped from container port 5432).
-* **pgAdmin**: Accessible at `http://localhost:8080` (Login: `admin@admin.com` / Password: `password`).
+### 3. Access Services
 
-### 3. Airflow Configuration
+Airflow UI: http://localhost:8081 (Login: admin / admin)
 
-We use the project root as `AIRFLOW_HOME` to ensure environment isolation and portability:
+pgAdmin: http://localhost:8080 (Login: admin@admin.com / password)
 
-```bash
-# Set Airflow home to current directory
-export AIRFLOW_HOME=$(pwd)
-
-# Initialize Airflow metadata database
-airflow db init
-
-# Create an admin user
-airflow users create \
-    --username admin \
-    --password admin \
-    --firstname first \
-    --lastname last \
-    --role Admin \
-    --email email@example.com
-
-```
-
-### 4. Running the Pipeline
-
-Open two separate terminal tabs. 
-**Note**: You must run `export AIRFLOW_HOME=$(pwd)` in every new session.
-
-* **Terminal 1 (Webserver)**:
-```bash
-airflow webserver --port 8081
-
-```
+Postgres: localhost:5433 (External access)
 
 
-* **Terminal 2 (Scheduler)**:
-```bash
-airflow scheduler
-
-```
-
-
-
-Once both services are running, visit `http://localhost:8081`, log in with `admin/admin`, and trigger the DAG: `dbt_project_orchestration_v5`.
 
 ---
 
@@ -105,9 +58,9 @@ Once both services are running, visit `http://localhost:8081`, log in with `admi
 
 ## 💡 Key Features
 
-* **Environment Agnostic**: The pipeline uses `PROJECT_ROOT` dynamic pathing, eliminating "File Not Found" errors across different machines.
+* **Zero Install**: No local Python or Airflow setup required; Docker handles all dependencies.
 * **Robust Ingestion**: The Python ingestion script handles inconsistent date formats and standardizes column naming conventions (lowercase, snake_case, trim whitespace) automatically using regex and pandas.
-* **Isolated Metadata**: By locking `AIRFLOW_HOME` to the project folder, all logs and local db files are kept separate from your system-wide Airflow configuration.
-* **Containerized Database**: Uses Docker to manage PostgreSQL 16.4, ensuring a consistent database environment for all users.
+* **Automated dbt Workflow**: The DAG automatically installs dbt packages and builds models within the container.
+* **Persistent Storage**: Database data is preserved in Docker volumes, while logs and dags are live-synced from your local folder.
 
 
