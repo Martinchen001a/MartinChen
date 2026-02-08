@@ -3,6 +3,9 @@
 ## 1. Executive Summary
 This project implements an automatic, end-to-end data pipeline orchestrated by **Apache Airflow**. It is designed to transform fragmented marketing data into centralized, actionable insights. The pipeline ingests multi-source raw data (CSV/JSON) into **PostgreSQL** via a robust Python-based ingestion layer (`ingest.py`). The transformation layer is managed by **dbt**, ensuring modularity, version control, and high data quality.
 
+<p align="center">
+  <img src="chart.png" width="80%" alt="Chart">
+</p>
 
 
 ---
@@ -20,6 +23,10 @@ This project implements an automatic, end-to-end data pipeline orchestrated by *
 ---
 
 ## 3. Data Handling & Business Logic (dbt Layer)
+
+<p align="center">
+  <img src="data_flow.png" width="80%" alt="Chart">
+</p>
 
 ### CRM Revenue Transformation
 * **Deduplication**: Implemented `DISTINCT` on `order_id` to prevent revenue inflation.
@@ -57,6 +64,11 @@ We employ a multi-layered defense to ensure "Single Source of Truth":
 ---
 
 ## 5. Schema Design
+
+<p align="center">
+  <img src="data_model.png" width="30%" alt="Chart">
+</p>
+
 The warehouse follows a **Star Schema** for optimized BI performance:
 * **Fact Tables**: `fact_ads_daily_campaign`, `fact_crm_daily_campaign`, `fact_orders`
 * **Dimension Tables**: `dim_customer`, `dim_campaign`
