@@ -15,7 +15,7 @@ SELECT DISTINCT ON (LOWER(TRIM(order_id)))
 	CASE 
         WHEN revenue::numeric >= 1000000 THEN 'revenue_outlier'
         WHEN revenue::numeric < 0 THEN 'negative_revenue'
-        WHEN customer_id IS NULL OR revenue::numeric IS NULL THEN 'missing_revenue'
+        WHEN revenue::numeric IS NULL THEN 'missing_revenue'
         ELSE 'normal'
     END AS data_quality_tag,
 	customer_id IS NULL AS has_missing_customer_id

@@ -13,6 +13,7 @@ models:
         tests:
           - not_null
 
+
   - name: marketing_master_view
     description: "Union of all ad platforms"
     columns:
@@ -53,4 +54,29 @@ models:
           - dbt_utils.accepted_range:
               min_value: 0
               inclusive: true
+  
+
+  - name: dim_campaign
+    description: "A dimension table containing unique advertising campaigns"
+    columns:
+      - name: campaign_id
+        description: "The primary key (PK) of the table."
+        tests:
+          - unique
+          - not_null
+
+  
+  - name: dim_customer
+    description: "A dimension table providing a unique list of customers and their primary geographic regions, derived from CRM revenue data."
+    columns:
+      - name: customer_id
+        description: "The primary key (PK) for the customer. A unique identifier assigned to each individual customer in the CRM system."
+        tests:
+          - unique
+          - not_null
+
+  
+  
+
+    
   

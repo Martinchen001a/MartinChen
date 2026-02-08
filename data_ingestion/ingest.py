@@ -87,17 +87,7 @@ def ingest_data():
     with engine.connect() as conn:
         with conn.begin():
             conn.execute(text("CREATE SCHEMA IF NOT EXISTS stg_data;"))
-            for table_name in staging_tables:
-                check_sql = text(f"""
-                    SELECT EXISTS (
-                        SELECT FROM information_schema.tables 
-                        WHERE table_schema = 'stg_data' AND table_name = '{table_name}'
-                    );
-                """)
-                if conn.execute(check_sql).scalar():
-                    conn.execute(
-                        text(f"TRUNCATE TABLE stg_data.{table_name} RESTART IDENTITY CASCADE;"))
-                    print(f"Truncated table: stg_data.{table_name}")
+            conn.execute(text("GRANT ALL ON SCHEMA stg_data TO postgres;"))
 
     print("Schema 'stg_data' initialized and tables cleared.")
 
@@ -115,7 +105,7 @@ def ingest_data():
         db_cols = [re.sub(r'[\s-]+', '_', c.strip().lower())
                    for c in raw_header]
         df_crm[db_cols].to_sql('stg_crm_revenue', con=engine, schema='stg_data',
-                               if_exists='append', index=False)
+                               if_exists='replace', index=False)
         print(f"Ingested CRM data: {len(df_crm)} rows")
 
     # Ingest facebook data
@@ -124,7 +114,7 @@ def ingest_data():
         df_fb = pd.read_csv(fb_path, on_bad_lines='warn', engine='python')
         df_fb = python_pre_clean(df_fb, "Facebook")
         df_fb.to_sql('stg_facebook_ads', con=engine, schema='stg_data',
-                     if_exists='append', index=False)
+                     if_exists='replace', index=False)
         print(f"Ingested Facebook data: {len(df_fb)} rows")
 
     # Ingest google data(Json)
@@ -141,7 +131,7 @@ def ingest_data():
         )
         df_google = python_pre_clean(df_google, "Google")
         df_google.to_sql('stg_google_ads', con=engine, schema='stg_data',
-                         if_exists='append', index=False)
+                         if_exists='replace', index=False)
         print(f"Ingested Google Ads data: {len(df_google)} rows")
 
 

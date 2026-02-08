@@ -12,7 +12,7 @@ WITH ads as (
     purchase_value,
     reach,
     avg_frequency
-  FROM {{ ref('int_ads_daily_campaign') }}
+  FROM {{ ref('fact_ads_daily_campaign') }}
 ),
 
 crm as (
@@ -27,7 +27,7 @@ crm as (
     negative_revenue_cnt,
     revenue_outlier_cnt,
     normal_revenue_cnt
-  FROM {{ ref('int_crm_daily_campaign') }}
+  FROM {{ ref('fact_crm_daily_campaign') }}
 ),
 
 joined as (
